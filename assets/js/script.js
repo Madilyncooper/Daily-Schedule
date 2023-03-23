@@ -1,6 +1,6 @@
 var saveButtonEl = $('.saveBtn');
 var textAreaEl = $('.description');
-
+var dailyTaskHistory = JSON.parse(localStorage.getItem('Tasks')) || [];
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
@@ -13,6 +13,9 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
 
+  
+  
+
   saveButtonEl.on('click', function() {
     
     var thisParentId = $(this).parent().attr('id');
@@ -21,12 +24,19 @@ $(function () {
     var textInput = $(thisSibling).val();
     var thisSiblingParentId = $(thisSibling).parent().attr('id');
 
+    // var dailyTaskHistory = JSON.parse(localStorage.getItem('Tasks')) || [];
+
+
 if (thisSiblingParentId === thisParentId) {
 
-      localStorage.setItem('Daily Tasks:', textInput);
+    dailyTaskHistory.push(textInput);
+    localStorage.setItem('Tasks', JSON.stringify(dailyTaskHistory));
+
 
 }   
     });
+
+
   //
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
@@ -41,25 +51,25 @@ if (thisSiblingParentId === thisParentId) {
   // attribute of each time-block be used to do this?
 
 
-  function updateTime () {
-    var todaysTime = dayjs();
-  
-    $('#currentDay').text(todaysTime.format('dddd, MMMM D YYYY [at] hh:mm:ss a'));
-  }
-  
-  function currentTime() {
-    var timer = setInterval(function (){
-      updateTime();
-    }, 1000);
-  }
-  
-  updateTime();
-  currentTime();
+
 
 });
 
 
+function updateTime () {
+  var todaysTime = dayjs();
 
+  $('#currentDay').text(todaysTime.format('dddd, MMMM D YYYY [at] hh:mm:ss a'));
+}
+
+function currentTime() {
+  var timer = setInterval(function (){
+    updateTime();
+  }, 1000);
+}
+
+updateTime();
+currentTime();
 
 
 // var scoresHistory = JSON.parse(localStorage.getItem('Score')) || [];
