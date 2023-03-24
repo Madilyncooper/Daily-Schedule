@@ -1,20 +1,13 @@
 var saveButtonEl = $('.saveBtn');
 var textAreaEl = $('.description');
 var dailyTaskHistory = JSON.parse(localStorage.getItem('Tasks')) || [];
+
+
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 
 $(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-
-  
-  
 
   saveButtonEl.on('click', function() {
     
@@ -24,14 +17,15 @@ $(function () {
     var textInput = $(thisSibling).val();
     var thisSiblingParentId = $(thisSibling).parent().attr('id');
 
-    // var dailyTaskHistory = JSON.parse(localStorage.getItem('Tasks')) || [];
-
+var dailyTaskObj = {
+  tasks: textInput,
+  parent: thisParentId,
+}
 
 if (thisSiblingParentId === thisParentId) {
 
-    dailyTaskHistory.push(textInput);
+    dailyTaskHistory.push(dailyTaskObj);
     localStorage.setItem('Tasks', JSON.stringify(dailyTaskHistory));
-
 
 }   
     });
@@ -45,15 +39,17 @@ if (thisSiblingParentId === thisParentId) {
   // current hour in 24-hour time?
 
 
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
+    var dailyTaskHistory = JSON.parse(localStorage.getItem('Tasks')) || [];
 
 
+    for (var i = 0; i < dailyTaskHistory.length; i ++) {
+      
+      var timeBlock = $('#' + dailyTaskHistory[i].parent).children('textarea');
 
+      timeBlock.text(dailyTaskHistory[i].tasks);
+    }
 
-});
+  });
 
 
 function updateTime () {
@@ -72,26 +68,3 @@ updateTime();
 currentTime();
 
 
-// var scoresHistory = JSON.parse(localStorage.getItem('Score')) || [];
-
-// var tmpScoreObj = {
-//     score: score,
-//     initial: grabInputEl.value,
-// };
-
-// scoresHistory.push(tmpScoreObj);
-
-
-// var scoresHistory = JSON.parse(localStorage.getItem('Score')) || [];
-
-// for (var i = 0; i < scoresHistory.length; i++) {
-
-//     var scoreSheet = scoresHistory[i];
-//     var initialsAndScore = `${scoreSheet.initial} : ${scoreSheet.score}`;
-//     var listItemEl = document.createElement('p');
-//     listItemEl.textContent = initialsAndScore;
-//     listItemEl.setAttribute('style', 'font-size: 20px; font-weight: 300; background-color: rgb(240,230,140); color: black; text-align: center; margin-right: 25px; margin-bottom: 30px;');
-//     listTitleEl.appendChild(listItemEl);
-     
-
-// }
